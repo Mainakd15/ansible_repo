@@ -1,0 +1,29 @@
+---
+- name: Set ansiblemcp facts
+  ansible.builtin.include_tasks: facts.yml
+
+- name: Stop ansiblemcp systemd services
+  ansible.builtin.include_tasks: systemd.yml
+  vars:
+    __systemd_state: stopped
+
+- name: Unarchive the ansiblemcp data
+  ansible.builtin.unarchive:
+    src: '{{ hostvars["localhost"]["_backup_dir"] }}/mcp_{{ inventory_hostname }}.{{ mcp_archive_extension }}'
+    dest: '{{ ansible_user_dir }}'
+    exclude:
+      - 'tls/'
+      - 'aap/tls'
+      - 'aap/ansiblemcp/etc/ansiblemcp.key'
+      - 'aap/ansiblemcp/etc/ansiblemcp.cert'
+
+- name: Reconfigure containers
+  ansible.builtin.include_tasks: containers.yml
+  vars:
+    __containers_recreate: true
+
+- name: Start ansiblemcp systemd services
+  ansible.builtin.include_tasks: systemd.yml
+  vars:
+    __systemd_state: started
+...

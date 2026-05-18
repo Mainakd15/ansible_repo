@@ -1,0 +1,8 @@
+[defaults]
+inventory = ./inventory
+
+# Tell Ansible where to find your installed collections directory
+collections_path = /home/admin/mycollections:./ansible_collections
+
+# If it's a standalone role (not packaged inside a collection), use roles_path instead:
+roles_path = /ansible_platform/collections/custon_collection/rhel/user/roles

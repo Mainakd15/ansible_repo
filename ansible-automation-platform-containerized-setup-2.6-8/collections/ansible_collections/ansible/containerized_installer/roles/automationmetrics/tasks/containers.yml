@@ -1,0 +1,77 @@
+---
+- name: Create the automation metrics web container
+  containers.podman.podman_container:
+    name: automation-metrics-web
+    image: '{{ _automationmetrics_image }}'
+    command: /app/scripts/entrypoint-web.sh
+    env: '{{ _automationmetrics_env }}'
+    secrets: '{{ _common_secrets }}'
+    volume: '{{ _web_volumes }}'
+    mount:
+      - 'type=tmpfs,destination=/run/nginx,U=true'
+      - 'type=tmpfs,destination=/run/supervisor,U=true'
+    log_driver: '{{ container_log_driver }}'
+    network: host
+    user: '{{ ansible_user_uid }}'
+    userns: keep-id
+    state: created
+    recreate: '{{ __containers_recreate | default(false) }}'
+    generate_systemd:
+      container_prefix: ''
+      path: '{{ ansible_user_dir }}/.config/systemd/user'
+      separator: ''
+      restart_policy: always
+      requires: '{{ __systemd_requires }}'
+    label: '{{ _autoupdate_label }}'
+  notify: Restart automation metrics web
+
+- name: Create the automation metrics tasks container
+  containers.podman.podman_container:
+    name: automation-metrics-tasks
+    image: '{{ _automationmetrics_image }}'
+    command: /app/scripts/entrypoint-dispatcherd.sh
+    env: '{{ _automationmetrics_env }}'
+    secrets: '{{ _common_secrets }}'
+    volume: '{{ _task_volumes }}'
+    log_driver: '{{ container_log_driver }}'
+    network: host
+    user: '{{ ansible_user_uid }}'
+    userns: keep-id
+    state: created
+    recreate: '{{ __containers_recreate | default(false) }}'
+    generate_systemd:
+      container_prefix: ''
+      path: '{{ ansible_user_dir }}/.config/systemd/user'
+      separator: ''
+      restart_policy: always
+      requires: '{{ __systemd_requires }}'
+    mount:
+      - 'type=tmpfs,destination=/run/supervisor,U=true'
+    label: '{{ _autoupdate_label }}'
+  notify: Restart automation metrics tasks
+
+- name: Create the automation metrics scheduler container
+  containers.podman.podman_container:
+    name: automation-metrics-scheduler
+    image: '{{ _automationmetrics_image }}'
+    command: /app/scripts/entrypoint-scheduler.sh
+    env: '{{ _automationmetrics_env }}'
+    secrets: '{{ _common_secrets }}'
+    volume: '{{ _scheduler_volumes }}'
+    mount:
+      - 'type=tmpfs,destination=/run/supervisor,U=true'
+    log_driver: '{{ container_log_driver }}'
+    network: host
+    user: '{{ ansible_user_uid }}'
+    userns: keep-id
+    state: created
+    recreate: '{{ __containers_recreate | default(false) }}'
+    generate_systemd:
+      container_prefix: ''
+      path: '{{ ansible_user_dir }}/.config/systemd/user'
+      separator: ''
+      restart_policy: always
+      requires: '{{ __systemd_requires }}'
+    label: '{{ _autoupdate_label }}'
+  notify: Restart automation metrics scheduler
+...

@@ -1,0 +1,65 @@
+---
+- name: Ensure automation gateway is configured when deploying automation metrics
+  ansible.builtin.assert:
+    that:
+      - groups.get('automationgateway', []) | length > 0
+    fail_msg: "automationgateway group must be defined when deploying automationmetrics"
+
+- name: Ensure automation metrics postgresql host is provided
+  ansible.builtin.assert:
+    that:
+      - automationmetrics_pg_host is defined
+      - automationmetrics_pg_host | length
+    fail_msg: 'automationmetrics_pg_host must be set and not empty'
+
+- name: Ensure automation metrics postgresql password is provided
+  ansible.builtin.assert:
+    that:
+      - automationmetrics_pg_password is defined
+      - automationmetrics_pg_password | length
+    fail_msg: 'automationmetrics_pg_password must be set and not empty'
+  when: not automationmetrics_pg_cert_auth | default(false) | bool
+
+- name: Ensure automation metrics controller read password is provided
+  ansible.builtin.assert:
+    that:
+      - automationmetrics_controller_read_pg_password is defined
+      - automationmetrics_controller_read_pg_password | length
+    fail_msg: 'automationmetrics_controller_read_pg_password must be set and not empty'
+  when: not automationmetrics_pg_cert_auth | default(false) | bool
+
+- name: Ensure automation metrics postgresql sslmode is a valid choice
+  ansible.builtin.assert:
+    that:
+      - automationmetrics_pg_sslmode in ['disable', 'allow', 'prefer', 'require', 'verify-ca', 'verify-full']
+    fail_msg: 'Invalid automation metrics postgresql sslmode value. Only disable, allow, prefer, require, verify-ca and verify-full values are allowed'
+  when: automationmetrics_pg_sslmode is defined
+
+- name: When using automation metrics TLS authentication
+  when:
+    - automationmetrics_pg_cert_auth is defined
+    - automationmetrics_pg_cert_auth | bool
+  block:
+    - name: Ensure using an external database
+      ansible.builtin.assert:
+        that:
+          - groups.get('database', []) | length == 0
+        fail_msg: 'Only external database topology supports postgresql TLS authentication'
+
+    - name: Ensure automation metrics TLS certificate/key are provided
+      ansible.builtin.assert:
+        that:
+          - automationmetrics_pg_tls_cert is defined
+          - automationmetrics_pg_tls_cert | length
+          - automationmetrics_pg_tls_key is defined
+          - automationmetrics_pg_tls_key | length
+          - custom_ca_cert is defined
+          - custom_ca_cert | length
+        fail_msg: 'automationmetrics_pg_tls_cert, automationmetrics_pg_tls_key and custom_ca_cert must be set and not empty'
+
+    - name: Ensure automation metrics TLS certificate/key are provided with postgresql authentication enabled
+      ansible.builtin.assert:
+        that:
+          - automationmetrics_pg_sslmode is defined
+          - automationmetrics_pg_sslmode in ['verify-ca', 'verify-full']
+        fail_msg: 'automationmetrics_pg_sslmode must be set and using either verify-ca or verify-full value'

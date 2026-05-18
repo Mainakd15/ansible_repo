@@ -1,0 +1,114 @@
+# This is the AAP installer inventory file intended for the Container growth deployment topology.
+# This inventory file expects to be run from the host where AAP will be installed.
+# Please consult the Ansible Automation Platform product documentation about this topology's tested hardware configuration.
+# https://docs.redhat.com/en/documentation/red_hat_ansible_automation_platform/2.6/html/tested_deployment_models/container-topologies
+#
+# Please consult the docs if you're unsure what to add
+# For all optional variables please consult the included README.md
+# or the Ansible Automation Platform documentation:
+# https://docs.redhat.com/en/documentation/red_hat_ansible_automation_platform/2.6/html/containerized_installation
+
+# This section is for your AAP Gateway host(s)
+# -----------------------------------------------------
+[automationgateway]
+rhel9-workstation02.mainak.com
+
+# This section is for your AAP Controller host(s)
+# -----------------------------------------------------
+[automationcontroller]
+rhel9-workstation02.mainak.com
+
+# This section is for your AAP Automation Hub host(s)
+# -----------------------------------------------------
+[automationhub]
+rhel9-workstation02.mainak.com
+
+# This section is for your AAP EDA Controller host(s)
+# -----------------------------------------------------
+[automationeda]
+rhel9-workstation02.mainak.com
+
+# This section is for your AAP Lightspeed host(s)
+# -----------------------------------------------------
+# [ansiblelightspeed]
+# rhel9-workstation02.mainak.com
+
+# This section is for your Ansible MCP Server host(s)
+# -----------------------------------------------------
+# [ansiblemcp]
+# rhel9-workstation02.mainak.com
+
+# This section is for the AAP database
+# -----------------------------------------------------
+[database]
+rhel9-workstation02.mainak.com
+
+[all:vars]
+# Ansible
+ansible_connection=local
+client_request_timeout=240
+
+# Common variables
+# https://docs.redhat.com/en/documentation/red_hat_ansible_automation_platform/2.6/html/containerized_installation/appendix-inventory-files-vars#general-variables
+# -----------------------------------------------------
+postgresql_admin_username=postgres
+postgresql_admin_password=admin@123
+
+registry_username=16692035|ansible-admin
+registry_password=eyJhbGciOiJSUzUxMiJ9.eyJzdWIiOiI0NmIzNDA5OWNlOGI0ZTA3YmJjMTJkYzIwYTM2ZTIxZCJ9.Q1l9_apAVdM3poRjFq0EqrK-vddRDZMtm2GWOWOBKNnusymkIypncOR4ASLLMphEH1ktyPlzshS3QKZicE0KlhU5k1uC_mgkM709EF64LBNoS1--MPujqyzz9Hdm-_g1yGSwGfi5bXsjt9tS-lG4AneU5LnOL82Meg9EoTpGuWre9xdsBC7E1TGPFdmYhlbWeeZyFOjXoEo6_lHaxfd7VJuBwZYYLQDTs6se9iZOTTR1lOzsDRHQ7CBHJnqmtXjN4e-vqhb2gmlS_UPQtyIl-OVLOnNpoAkaNxk1ODhXi03VRz9hz3anf_7K0cNDDVxFaTqnZ2-BQwb4Vqtzj6IClkLrJom0xDqgE7B7CPzPJ0hTfpFPhmpMrIkokv924Y-zsB8i7XlgT0WTgYQhH0Tr9ColBUANgWNKu27wdZg2ZbhTzUPnmiPcCwdtN0tdWb9Afogxl7ba0yCMwyjKr38w9YUzCMbCnWAFEl97NqdvKXo2ciAbwUggd2NEMwUDWcp7T3U7eb2Rv0dtYMxckEp4B8X2pyOH_bOiIISvjjVoZrzPQHk-n0Pz4GvIivWuxQavs_gby9R_Ow5TwIT047DCug_Fe5OTljArJ97CFrx9mOYG1sKrqMv44aozd08H5KeFSz6C8w7OvpGkFLmrgJd-Ycg52yq0IG5q9bVxUFlniG8
+
+redis_mode=standalone
+
+# AAP Gateway
+# https://docs.redhat.com/en/documentation/red_hat_ansible_automation_platform/2.6/html/containerized_installation/appendix-inventory-files-vars#platform-gateway-variables
+# -----------------------------------------------------
+gateway_admin_password=admin@123
+gateway_pg_host=rhel9-workstation02.mainak.com
+gateway_pg_password=admin@123
+
+# AAP Controller
+# https://docs.redhat.com/en/documentation/red_hat_ansible_automation_platform/2.6/html/containerized_installation/appendix-inventory-files-vars#controller-variables
+# -----------------------------------------------------
+controller_admin_password=admin@123
+controller_pg_host=rhel9-workstation02.mainak.com
+controller_pg_password=admin@123
+controller_percent_memory_capacity=0.5
+
+# AAP Automation Hub
+# https://docs.redhat.com/en/documentation/red_hat_ansible_automation_platform/2.6/html/containerized_installation/appendix-inventory-files-vars#hub-variables
+# -----------------------------------------------------
+hub_admin_password=admin@123
+hub_pg_host=rhel9-workstation02.mainak.com
+hub_pg_password=admin@123
+hub_seed_collections=false
+
+# AAP EDA Controller
+# https://docs.redhat.com/en/documentation/red_hat_ansible_automation_platform/2.6/html/containerized_installation/appendix-inventory-files-vars#event-driven-ansible-variables
+# -----------------------------------------------------
+eda_admin_password=admin@123
+eda_pg_host=rhel9-workstation02.mainak.com
+eda_pg_password=admin@123
+
+# AAP Lightspeed
+# https://docs.redhat.com/en/documentation/red_hat_ansible_automation_platform/2.6/html/containerized_installation/appendix-inventory-files-vars#lightspeed-variables
+# -----------------------------------------------------
+# lightspeed_admin_password=admin@123
+# lightspeed_pg_host=rhel9-workstation02.mainak.com
+# lightspeed_pg_password=admin@123
+
+# In case chabot is enabled, default provider is "rhoai"
+# lightspeed_chatbot_model_url=admin@123
+# lightspeed_chatbot_model_api_key=admin@123
+# lightspeed_chatbot_model_id=admin@123
+
+# In case "azure" provider
+# lightspeed_chatbot_default_provider = "azure"
+
+# In case "openai" provider
+# lightspeed_chatbot_default_provider = "openai"
+
+# lightspeed_mcp_controller_enabled=true
+# lightspeed_mcp_lightspeed_enabled=true
+# lightspeed_wca_model_api_key=admin@123
+# lightspeed_wca_model_id=admin@123
+

@@ -1,0 +1,13 @@
+---
+- name: Update CA trust
+  containers.podman.podman_container:
+    name: update-ca-trust
+    image: '{{ _images | first }}'
+    command: 'update-ca-trust'
+    detach: false
+    entrypoint: ''
+    rm: true
+    log_driver: journald
+    user: root
+    volume: '{{ _ca_volumes }}'
+...
