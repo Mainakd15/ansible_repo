@@ -4,4 +4,4 @@
   collections:
     - rhel.user
   roles:
-    - newuser
+    - rhel.user.newuser
