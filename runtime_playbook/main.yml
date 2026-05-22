@@ -1,0 +1,7 @@
+---
+- name: Runtime Playbook
+  hosts: production
+  collection:
+      - linux.storage
+  roles:
+      - linux.storage.mount_drive
