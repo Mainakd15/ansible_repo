@@ -1,0 +1,12 @@
+---
+- name: Flow Control
+  hosts: all
+  tasks:
+    - name: Setup block one
+      ansible.builtin.copy:
+        content: 'Hello from Init'
+        dest: /var/www/html/index.html
+    - name: Setup block two
+      ansible.builtin.copy:
+        content: 'Hello from Final'
+        dest: /var/www/html/index.html
