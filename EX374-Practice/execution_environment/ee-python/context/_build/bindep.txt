@@ -1,0 +1,5 @@
+python3-pip [platform:rpm]
+python3-pip [platform:dpkg]
+gcc
+python3-devel
+openldap-devel

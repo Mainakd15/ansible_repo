@@ -1,0 +1,17 @@
+---
+version: 3
+images:
+  base_image:
+    name: registry.redhat.io/ansible-automation-platform-26/ee-minimal-rhel9:latest
+
+dependencies:
+    collections:
+      - ansible.netcommon
+    
+dependencies:
+    system:
+      - python3-pip [platform:rpm]
+      - python3-pip [platform:dpkg]
+    python:
+      - requests
+      - boto3>=1.20.0

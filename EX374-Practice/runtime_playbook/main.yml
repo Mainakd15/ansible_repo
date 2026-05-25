@@ -1,0 +1,11 @@
+---
+- name: Runtime Playbook
+  hosts: production
+  collections:
+      - linux.storage
+  roles:
+      - linux.storage.mount_drive
+  tasks:
+    - name: Execute custom mount drive role
+      ansible.builtin.include_role:
+        name: linux.storage.mount_drive

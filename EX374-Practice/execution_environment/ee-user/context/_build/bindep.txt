@@ -1,0 +1,2 @@
+python3-pip [platform:rpm]
+python3-pip [platform:dpkg]

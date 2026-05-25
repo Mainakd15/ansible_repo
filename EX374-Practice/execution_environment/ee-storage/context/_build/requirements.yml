@@ -1,0 +1,4 @@
+---
+collections:
+  - name: linux-storage-1.0.0.tar.gz
+    type: file
