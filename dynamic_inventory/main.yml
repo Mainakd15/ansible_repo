@@ -1,9 +1,0 @@
----
-- name: Dynamic Inventory
-  hosts: web
-  become: true
-  tasks:
-    - name: Copy Content
-      ansible.builtin.copy:
-        content: "Sun set down in East"
-        dest: /etc/motd.d/banner

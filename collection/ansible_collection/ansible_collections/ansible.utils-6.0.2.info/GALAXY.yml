@@ -1,8 +1,0 @@
-download_url: https://rhel9-workstation02.mainak.com/api/galaxy/v3/plugin/ansible/content/published/collections/artifacts/ansible-utils-6.0.2.tar.gz
-format_version: 1.0.0
-name: utils
-namespace: ansible
-server: https://rhel9-workstation02.mainak.com/api/galaxy/
-signatures: []
-version: 6.0.2
-version_url: /api/galaxy/v3/plugin/ansible/content/published/collections/index/ansible/utils/versions/6.0.2/

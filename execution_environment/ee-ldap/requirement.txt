@@ -1,3 +1,0 @@
-python-ldap
-pyasn1
-python3-pip

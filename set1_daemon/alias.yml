@@ -1,8 +1,0 @@
----
-- name: Set1 Daemon Playbook
-  hosts: all
-  tasks:
-    - name: Copy tracking template
-      ansible.builtin.copy:
-        content: 'Config version 1.0'
-        dest: /etc/sysctl.d/99-ops.conf
